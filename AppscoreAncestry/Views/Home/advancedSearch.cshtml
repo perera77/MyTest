@@ -1,0 +1,54 @@
+﻿
+<div class="jumbotron">
+    <h1>Appscore Ancestry</h1>
+</div>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="nameKey">
+        </div>
+        <input type="button" class="btn btn-default" id="searchBtn" value="Search" onclick="simpleSearch()">
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-1">Gender:</label>
+        <div class="col-sm-1">
+            <label><input type="checkbox" id="maleChkBx"> Male</label>
+        </div>
+        <div class="col-sm-1">
+            <label><input type="checkbox" id="femaleChkBx"> Female</label>
+        </div>
+        <div class="col-sm-6">
+            <input type="button" class="btn-link" value="Advanced Search" onclick="advancedSearch()" />
+        </div>
+    </div>
+</form>
+
+<div id="results" hidden="hidden">
+    <h2>Results:</h2>
+    <table class="table table-striped"></table>
+</div>
+
+@section Scripts {
+    <script>
+            function simpleSearch() {
+                var nameKey = $("#nameKey").val();
+                var genderMale = $("#maleChkBx").is(":checked");
+                var genderFemale = $("#femaleChkBx").is(":checked");
+                $.get("api/ancestry/search",
+                    { key: nameKey, male: genderMale, female: genderFemale },
+                    function (data, status) {
+                        alert("Data: " + data + "\nStatus: " + status);
+                });
+                $("#results").show();
+            }
+
+            function advancedSearch() {
+                location.href = "home/advancedSearch";
+            }
+
+    </script>
+}
+
+

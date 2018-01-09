@@ -24,9 +24,14 @@
         </div>
 </form>
 
-<div id="results" hidden="hidden">
+<div id="result_section" hidden="hidden">
 <h2>Results:</h2>
-    <table class="table table-striped"></table>
+<table class="table table-striped">
+    <thead>
+        <tr style="background-color: olivedrab; color:white"><th>ID</th><th>NAME</th><th>Gender</th><th>BIRTHPLACE</th></tr>
+    </thead>
+    <tbody id="result"></tbody>
+</table>
 </div>
 
 @section Scripts {
@@ -35,12 +40,19 @@
                 var nameKey = $("#nameKey").val();
                 var genderMale = $("#maleChkBx").is(":checked");
                 var genderFemale = $("#femaleChkBx").is(":checked");
-                $.get("api/ancestry/search",
+                $.getJSON("api/ancestry/search",
                     { key: nameKey, male: genderMale, female: genderFemale },
                     function (data, status) {
+                        $("#result").empty(); // clear the table body
+
+                        $.each(data, function (key, val) {
+                            var row = '<td>' + val.id + '</td><td>' + val.name + '</td><td>' + val.gender + '</td><td>' + val.birthplace + '</td>';
+                            $('<tr/>', { html: row })  // Append the name.
+                                .appendTo($('#result'));
+                        });
                         alert("Data: " + data + "\nStatus: " + status);
                 });
-                $("#results").show();
+                $("#result_section").show();
             }
 
             function advancedSearch() {
