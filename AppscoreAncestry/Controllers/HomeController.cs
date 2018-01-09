@@ -10,7 +10,7 @@ namespace AppscoreAncestry.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Simple Search";
 
             return View();
         }
